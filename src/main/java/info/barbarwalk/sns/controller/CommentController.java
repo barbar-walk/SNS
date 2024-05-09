@@ -48,7 +48,7 @@ public class CommentController extends AppController {
 	 * @throws URISyntaxException 例外
 	 */
 	@PostMapping("/{postsId}")
-	public String indes(
+	public String index(
 			@RequestHeader("Referer") String referer,
 			@PathVariable("postsId") String postsId,
 			@Validated @ModelAttribute RequestComment requestComment,
@@ -71,7 +71,7 @@ public class CommentController extends AppController {
 			return "redirect:" + new URI(referer).getPath() + "#comment_" + postsId;
 		}
 
-		// TODO バリデーション（投稿ID）
+		// TODO バリデーション（投稿ID：投稿が実際に存在するかチェックを入れる。）
 		Long lPostsId = Long.parseLong(postsId);
 
 		// ログインユーザー情報取得。
