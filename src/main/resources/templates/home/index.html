@@ -34,6 +34,7 @@
 
           <div class="row" th:if="${not #lists.isEmpty(postsList)}">
             <div id="container" class="col-lg-12">
+              <p th:text="${@appConst.getPageSize()}"></p>
               <!-- Card with an image on top -->
               <div class="card" th:each="posts:${postsList}">
                 <div class="card-header">
@@ -131,7 +132,7 @@
             </div>
           </div>
 
-          <div class="d-grid gap-2">
+          <div th:if="${pager.totalElements > @appConst.getPageSize()}" class="d-grid gap-2">
             <button id="btn-more" class="btn btn-primary" type="button" onclick="callWebAPI();" th:data-maxid="${maxId}">もっと見る</button>
           </div>
         </div><!-- End Left side columns -->

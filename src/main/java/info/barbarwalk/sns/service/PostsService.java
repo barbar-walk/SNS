@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
+import info.barbarwalk.sns.AppConst.AppSettingProperties;
 import info.barbarwalk.sns.dto.RequestShare;
 import info.barbarwalk.sns.entity.PostImages;
 import info.barbarwalk.sns.entity.Posts;
@@ -29,6 +30,10 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Service
 public class PostsService {
+
+	/** アプリで使用する定数定義。 */
+	@Autowired
+	private AppSettingProperties appSettingProperties;
 
 	/** Mapperインターフェース。 */
 	@Autowired
@@ -82,9 +87,24 @@ public class PostsService {
 		List<Order> orderList = new ArrayList<Order>();
 		orderList.add(new Order(Direction.DESC, "id"));
 
-		Pageable pageable = PageRequest.of(page, 10, Sort.by(orderList));
+		Pageable pageable = PageRequest.of(page, appSettingProperties.getPageSize(), Sort.by(orderList));
 
 		return repository.findByIdLessThan(maxId, pageable);
+	}
+
+	/**
+	 * 投稿情報を取得する。
+	 *
+	 * @param page ページ
+	 * @return ページング制御付きの投稿情報を返す。
+	 */
+	public Page<Posts> findAllPosts(Integer page) {
+		List<Order> orderList = new ArrayList<Order>();
+		orderList.add(new Order(Direction.DESC, "id"));
+
+		Pageable pageable = PageRequest.of(page, appSettingProperties.getPageSize(), Sort.by(orderList));
+
+		return repository.findAllByOrderByIdDesc(pageable);
 	}
 
 	/**

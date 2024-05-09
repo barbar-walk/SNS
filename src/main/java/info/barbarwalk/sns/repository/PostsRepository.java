@@ -28,6 +28,14 @@ public interface PostsRepository extends PagingAndSortingRepository<Posts, Long>
 	 * 投稿一覧を取得する。
 	 * 投稿IDの降順。
 	 *
+	 * @return 投稿一覧を返す。
+	 */
+	Page<Posts> findAllByOrderByIdDesc(Pageable pageable);
+
+	/**
+	 * 投稿一覧を取得する。
+	 * 投稿IDの降順。
+	 *
 	 * @param usersId ユーザーID
 	 * @return 投稿一覧を返す。
 	 */

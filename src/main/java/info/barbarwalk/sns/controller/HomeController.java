@@ -2,7 +2,9 @@ package info.barbarwalk.sns.controller;
 
 import java.util.List;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import info.barbarwalk.sns.AppPageWrapper;
 import info.barbarwalk.sns.core.annotation.LoginCheck;
 import info.barbarwalk.sns.dto.RequestComment;
 import info.barbarwalk.sns.dto.RequestShare;
@@ -51,7 +54,9 @@ public class HomeController extends AppController {
 	 * @return テンプレートpath
 	 */
 	@GetMapping(path = { "", "/" })
-	public String index(Model model) {
+	public String index(@RequestParam(defaultValue = "0") String page,
+			Model model) {
+
 		log.info("ホーム画面のアクションが呼ばれました。");
 
 		if (!model.containsAttribute("requestShare")) {
@@ -64,8 +69,13 @@ public class HomeController extends AppController {
 		// ログインユーザー情報取得。
 		Long usersId = getUsersId();
 
+		int ipage = NumberUtils.toInt(page, 0);
+
 		// 投稿一覧取得。
-		List<Posts> postsList = postsService.findAllPosts();
+		Page<Posts> pagePosts = postsService.findAllPosts(ipage);
+		AppPageWrapper<Posts> pager = new AppPageWrapper<Posts>(pagePosts);
+
+		List<Posts> postsList = pager.getContent();
 		model.addAttribute("postsList", postsList);
 
 		Long maxId = 0L;
@@ -77,6 +87,7 @@ public class HomeController extends AppController {
 		// ニュース一覧取得。
 		List<PostsMappingEntity> newsList = postsService.getNewPosts(usersId);
 		model.addAttribute("newsList", newsList);
+		model.addAttribute("pager", pager);
 
 		// TODO ダミーID
 		model.addAttribute("maxId", 5);
