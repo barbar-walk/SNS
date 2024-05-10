@@ -1,5 +1,6 @@
 package info.barbarwalk.sns.api.dto;
 
+import info.barbarwalk.sns.service.StorageService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -32,4 +33,8 @@ public class UsersDto extends DtoBase {
 
 	/** プロフィール */
 	private String profile;
+
+	public String getIconUri() {
+		return StorageService.getDataUri(iconUri);
+	}
 }

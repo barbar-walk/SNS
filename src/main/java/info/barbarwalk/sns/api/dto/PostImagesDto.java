@@ -1,5 +1,6 @@
 package info.barbarwalk.sns.api.dto;
 
+import info.barbarwalk.sns.service.StorageService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -23,4 +24,8 @@ public class PostImagesDto extends DtoBase {
 
 	/** 投稿画像URI */
 	private String imageUri;
+
+	public String getImageUri() {
+		return StorageService.getDataUri(imageUri);
+	}
 }
