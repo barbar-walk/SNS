@@ -26,6 +26,7 @@ function callWebAPI() {
                 clonedTemplate.querySelector('#user-name').textContent = post.users.name;
                 clonedTemplate.querySelector('#title').textContent = post.title;
                 clonedTemplate.querySelector('#body').innerHTML = post.body.replace(/\n/g, '<br>');
+                clonedTemplate.querySelector('#comment-form').action = '/comment/' + post.id;
 
                 var isNotImageExist = true;
                 for (let postImage of post.postImagesList) {
