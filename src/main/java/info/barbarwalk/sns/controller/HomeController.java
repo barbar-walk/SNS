@@ -88,9 +88,7 @@ public class HomeController extends AppController {
 		List<PostsMappingEntity> newsList = postsService.getNewPosts(usersId);
 		model.addAttribute("newsList", newsList);
 		model.addAttribute("pager", pager);
-
-		// TODO ダミーID
-		model.addAttribute("maxId", 5);
+		model.addAttribute("maxId", maxId);
 
 		return "home/index";
 	}
