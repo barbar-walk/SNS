@@ -131,7 +131,7 @@
             </div>
           </div>
 
-          <div th:if="${pager.totalElements > @appConst.getPageSize()}" class="d-grid gap-2">
+          <div id="btn-more-section" th:if="${pager.totalElements > @appConst.getPageSize()}" class="d-grid gap-2">
             <button id="btn-more" class="btn btn-primary" type="button" onclick="callWebAPI();" th:data-maxid="${maxId}">もっと見る</button>
           </div>
         </div><!-- End Left side columns -->

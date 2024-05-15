@@ -10,6 +10,14 @@ function callWebAPI() {
             // WebAPIからのレスポンスを処理
             console.log(ret);
 
+            if (!ret.page_info.has_next) {
+                var moreSection = document.getElementById('btn-more-section');
+                moreSection.remove();
+            } else {
+                var button = document.getElementById('btn-more');
+                button.setAttribute('data-sinceid', ret.page_info.since_id);
+            }
+
             for (let post of ret.data) {
                 // テンプレート要素を取得する
                 var templateElement = document.getElementById('template');
